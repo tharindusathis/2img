@@ -7,11 +7,70 @@ const twemoji = require('twemoji');
 const twOptions = { folder: 'svg', ext: '.svg' };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
+let rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
+let bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
+let mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
 
-function getCss(theme: string, fontSize: string) {
+const abhaya = readFileSync(`${__dirname}/../_fonts/UN-Abhaya.ttf`).toString('base64');
+const abhaya_bold = readFileSync(`${__dirname}/../_fonts/UN-Abhaya-bold.ttf`).toString('base64');
+const alakamanda = readFileSync(`${__dirname}/../_fonts/UN-Alakamanda.ttf`).toString('base64');
+const arundathee = readFileSync(`${__dirname}/../_fonts/UN-Arundathee.ttf`).toString('base64');
+const basuru = readFileSync(`${__dirname}/../_fonts/UN-Basuru.ttf`).toString('base64');
+const bindumathi = readFileSync(`${__dirname}/../_fonts/UN-Bindumathi.ttf`).toString('base64');
+const davasa = readFileSync(`${__dirname}/../_fonts/UN-Davasa.ttf`).toString('base64');
+const derana = readFileSync(`${__dirname}/../_fonts/UN-Derana.ttf`).toString('base64');
+const dharanee = readFileSync(`${__dirname}/../_fonts/UN-Dharanee.ttf`).toString('base64');
+const disapamok = readFileSync(`${__dirname}/../_fonts/UN-Disapamok.ttf`).toString('base64');
+const ganganee = readFileSync(`${__dirname}/../_fonts/UN-Ganganee.ttf`).toString('base64');
+const gurulugomi = readFileSync(`${__dirname}/../_fonts/UN-Gurulugomi.ttf`).toString('base64');
+const imanee = readFileSync(`${__dirname}/../_fonts/UN-Imanee.ttf`).toString('base64');
+const indeewaree = readFileSync(`${__dirname}/../_fonts/UN-Indeewaree.ttf`).toString('base64');
+const isiwara = readFileSync(`${__dirname}/../_fonts/UN-Isiwara.ttf`).toString('base64');
+const malithi = readFileSync(`${__dirname}/../_fonts/UN-Malithi.ttf`).toString('base64');
+const rajantha = readFileSync(`${__dirname}/../_fonts/UN-Rajantha.ttf`).toString('base64');
+const rashmi = readFileSync(`${__dirname}/../_fonts/UN-Rashmi.ttf`).toString('base64');
+const samantha = readFileSync(`${__dirname}/../_fonts/UN-Samantha.ttf`).toString('base64');
+const sandhyanee = readFileSync(`${__dirname}/../_fonts/UN-Sandhyanee.ttf`).toString('base64');
+
+const customFonts: {[key: string]: string} = {
+    abhaya, 
+    abhaya_bold, 
+    alakamanda,
+    arundathee,
+    basuru,
+    bindumathi,
+    davasa,
+    derana,
+    dharanee,
+    disapamok,
+    ganganee,
+    gurulugomi,
+    imanee,
+    indeewaree,
+    isiwara,
+    malithi,
+    rajantha,
+    rashmi,
+    samantha,
+    sandhyanee
+}
+
+
+function setFontFamily(fontFamily: string = 'abhaya'){
+    console.log('setFontFamily', fontFamily);
+    
+    const font: string = customFonts[fontFamily] || customFonts['abhaya'];
+    if(font){
+        rglr = font;
+        bold = font;
+        mono = font;
+    }
+}
+
+function getCss(theme: string, fontSize: string, fontFamily?: string) {
+
+    setFontFamily(fontFamily);
+
     let background = 'white';
     let foreground = 'black';
     let radial = 'lightgray';
@@ -104,14 +163,14 @@ function getCss(theme: string, fontSize: string) {
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
+    const { text, theme, md, fontSize, fontFamily, images, widths, heights } = parsedReq;
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
     <title>Generated Image</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        ${getCss(theme, fontSize)}
+        ${getCss(theme, fontSize, fontFamily)}
     </style>
     <body>
         <div>
