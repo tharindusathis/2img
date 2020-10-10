@@ -164,6 +164,27 @@ function getCss(theme: string, fontSize: string, fontFamily?: string) {
 
 export function getHtml(parsedReq: ParsedRequest) {
     const { text, theme, md, fontSize, fontFamily, images, widths, heights } = parsedReq;
+    if (images.length === 0){
+        return `<!DOCTYPE html>
+        <html>
+            <meta charset="utf-8">
+            <title>Generated Image</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                ${getCss(theme, fontSize, fontFamily)}
+            </style>
+            <body>
+                <div>
+                    <div class="spacer">
+                    <div class="heading">${emojify(
+                        md ? marked(text) : sanitizeHtml(text)
+                    )}
+                    </div>
+                </div>
+            </body>
+        </html>`;
+    }
+
     return `<!DOCTYPE html>
 <html>
     <meta charset="utf-8">
@@ -201,5 +222,5 @@ function getImage(src: string, width ='auto', height = '225') {
 }
 
 function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
+    return i === 0 ? '' : '<div class="plus"> </div>';
 }
