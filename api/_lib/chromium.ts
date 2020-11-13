@@ -17,6 +17,19 @@ export async function getScreenshot(html: string, type: FileType, isDev: boolean
     const page = await getPage(isDev);
     await page.setViewport({ width: 2048, height: 1170 });
     await page.setContent(html);
+
+    const heading = await page.$('.heading');
+    if(heading != null){
+        let h = 99999;
+        let size = 500;
+        while(h > 1170){
+            const box = await heading.boundingBox();
+            const height = (box || {}).height; 
+            h = height || 0;
+            size = size - 5;
+            await page.addStyleTag({content: `.heading{font-size: ${size}px}`})
+        }
+    }
     const file = await page.screenshot({ type });
     return file;
 }
