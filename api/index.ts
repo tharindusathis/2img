@@ -19,8 +19,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         const file = await getScreenshot(html, fileType, isDev);
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
-        res.setHeader('Cache-Control', `no-store`);
-        res.setHeader('Clear-Site-Data', `cache`);
+        res.setHeader('Cache-Control', `no-cache`);
         res.end(file);
     } catch (e) {
         res.statusCode = 500;
