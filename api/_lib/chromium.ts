@@ -27,7 +27,9 @@ export async function getScreenshot(html: string, type: FileType, isDev: boolean
             const height = (box || {}).height; 
             h = height || 0;
             size = size - 5;
+            if(h > 1170){
             await page.addStyleTag({content: `.heading{font-size: ${size}px}`})
+            }
         }
     }
     const file = await page.screenshot({ type });
