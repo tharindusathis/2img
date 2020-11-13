@@ -20,6 +20,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         res.statusCode = 200;
         res.setHeader('Content-Type', `image/${fileType}`);
         res.setHeader('Cache-Control', `no-store`);
+        res.setHeader('Clear-Site-Data', `cache`);
         res.end(file);
     } catch (e) {
         res.statusCode = 500;
