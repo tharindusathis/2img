@@ -17,7 +17,7 @@ export function parseRequest(req: IncomingMessage) {
         throw new Error('Expected a single theme');
     }
     
-    const arr = (pathname || '/').slice(1).split('.');
+    let arr = (pathname || '/').slice(1).split('.');
     let extension = '';
     let text = '';
     if (arr.length === 0) {
@@ -25,6 +25,11 @@ export function parseRequest(req: IncomingMessage) {
     } else if (arr.length === 1) {
         text = arr[0];
     } else {
+        if(arr.length > 2){
+            const lastVal = arr.pop() || '';
+            const firstVal = arr.join(".");
+            arr = [firstVal, lastVal]
+        }
         extension = arr.pop() as string;
         text = arr.join('.');
     }
